@@ -10,7 +10,9 @@
 
 @interface PlaylistMasterViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIImageView *playlistImageView0;
+// Creamos un IBOutletCollection para almacenar todas las playlist que tenemos disponibles (8)
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *playlistImageViews;
+
 
 @end
 

@@ -23,10 +23,20 @@
     // método que hemos definido, pasando un índice
     
     
-    Playlist *playlist = [[Playlist alloc]initWithIndex:0];
+    // Hacemos un for para recorrer la matriz de playlists
     
-    // Ahora asignamos la imagen del objeto creado al imageView
-    self.playlistImageView0.image = playlist.playlistIconLarge;
+    for (NSUInteger index = 0; index < self.playlistImageViews.count; index++ ) {
+        
+        // Para cada indice, creamos una playlist con el indice que toca (index)
+        // y creamos un imageView para el contenedor de la vista tb con el indice
+        Playlist *playlist = [[Playlist alloc]initWithIndex:index];
+        UIImageView *playlistImageView = self.playlistImageViews[index];
+        
+        // Asignamos el icono y el color de fondo
+        playlistImageView.image = playlist.playlistIcon;
+        playlistImageView.backgroundColor = playlist.playlistColor;
+        
+    }
     
 }
 
@@ -41,10 +51,20 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqual:@"showPlaylistDetail"]) {
         
-        PlaylistDetailViewController *playListDetailController = (PlaylistDetailViewController *)segue.destinationViewController;
-        // Aquí es donde creamos un objeto Playlist y lo asociamos al de la vista.
-        playListDetailController.playlist = [[Playlist alloc]initWithIndex:0];
+        // Obtenemos la vista pulsada con el gesture, que sabemos que es un imageView
+        UIImageView *playlistImageView = (UIImageView *) [sender view];
         
+        // Comprobamos si la imagen pulsada está dentro de la coleccion de outlets
+        if ([self.playlistImageViews containsObject:playlistImageView]) {
+            
+            // Si está dentro de la colección, obtenemos el indice que ocupa en el array con el método indexOfObject
+            NSUInteger index = [self.playlistImageViews indexOfObject:playlistImageView];
+        
+            PlaylistDetailViewController *playListDetailController = (PlaylistDetailViewController *)segue.destinationViewController;
+            // Aquí es donde creamos un objeto Playlist y lo asociamos al de la vista.
+            playListDetailController.playlist = [[Playlist alloc]initWithIndex:index];
+            
+        }
     }
 }
 
